@@ -29,56 +29,51 @@ def opcion_uno():
         while True:
             folio = input("Ingrese el folio del producto: ")
             descripcion = input("Ingrese la descripción del producto: ")
-            if re.match(regexLetras,descripcion):
-                while True:
-                    try:
-                        cantidad = int(input("Ingrese la cantidad del producto: "))
-                    except Exception:
-                        print(f"Ocurrió un problema, debe ingresar un dato numérico entero: {sys.exc_info()[0]}")
-                        input("Pulse enter para continuar... ")
-                    else:
-                        while True:
-                            try:
-                                precio = float(input("Ingrese el precio del producto: "))
-                            except Exception:
-                                print(f"Ocurrió un problema, debe ingresar un dato numérico de tipo entero o float: {sys.exc_info()[0]}")
-                                input("Pulse enter para continuar... ")
-                            else:
-                                break
-                        break
-
-                # Luego de capturar, se realiza la instancia, se almacena en un diccionario
-                # y se actualiza la variable monto.
-                producto_registrado = Producto(descripcion, cantidad, precio)
-                diccionario_productos[folio] = producto_registrado
-                monto = (cantidad * precio)
-                monto_total = monto_total + monto
-
-            # Se pregunta al usuario si desea seguir capturando otro producto
-                respuesta = input("¿Desea agregar otro producto? [S/N]: ")
-                if respuesta.upper() == "S":
-                    LimpiarPantalla()
-                elif respuesta.upper() == "N":
-                    # Si ya no desea capturar, se imprimee el calculo del monto e IVA
-                    LimpiarPantalla()
-                    fecha = datetime.datetime.now()
-                    momento = fecha.strftime("%d/%m/%Y")
-                    IVA = (monto_total * 0.16)
-                    print(f'El monto total a pagar es: {"${:,.2f}".format((monto_total + IVA))}')
-                    print(f'El IVA aplicable del 16% es: {"${:,.2f}".format((IVA))}')
-                    diccionario_copia = diccionario_productos.copy()
-                    diccionario_ventas[clave] = diccionario_copia,momento
-                    diccionario_productos.clear()
-                    diccionario_montos[clave] = monto_total+IVA
-                    monto_total = 0
+            while True:
+                try:
+                    cantidad = int(input("Ingrese la cantidad del producto: "))
+                except Exception:
+                    print(f"Ocurrió un problema, debe ingresar un dato numérico entero: {sys.exc_info()[0]}")
                     input("Pulse enter para continuar... ")
-                    break
                 else:
-                    print("Error. Opcion no válida!")
+                    while True:
+                        try:
+                            precio = float(input("Ingrese el precio del producto: "))
+                        except Exception:
+                            print(f"Ocurrió un problema, debe ingresar un dato numérico de tipo entero o float: {sys.exc_info()[0]}")
+                            input("Pulse enter para continuar... ")
+                        else:
+                            break
+                    break
 
-            else:
-                print("Error. Opcion no valida")
+            # Luego de capturar, se realiza la instancia, se almacena en un diccionario
+            # y se actualiza la variable monto.
+            producto_registrado = Producto(descripcion, cantidad, precio)
+            diccionario_productos[folio] = producto_registrado
+            monto = (cantidad * precio)
+            monto_total = monto_total + monto
+
+        # Se pregunta al usuario si desea seguir capturando otro producto
+            respuesta = input("¿Desea agregar otro producto? [S/N]: ")
+            if respuesta.upper() == "S":
+                LimpiarPantalla()
+            elif respuesta.upper() == "N":
+                # Si ya no desea capturar, se imprimee el calculo del monto e IVA
+                LimpiarPantalla()
+                fecha = datetime.datetime.now()
+                momento = fecha.strftime("%d/%m/%Y")
+                IVA = (monto_total * 0.16)
+                print(f'El monto total a pagar es: {"${:,.2f}".format((monto_total + IVA))}')
+                print(f'El IVA aplicable del 16% es: {"${:,.2f}".format((IVA))}')
+                diccionario_copia = diccionario_productos.copy()
+                diccionario_ventas[clave] = diccionario_copia,momento
+                diccionario_productos.clear()
+                diccionario_montos[clave] = monto_total+IVA
+                monto_total = 0
                 input("Pulse enter para continuar... ")
+                break
+            else:
+                print("Error. Opcion no válida!")
 
 
 def opcion_dos():
